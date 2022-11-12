@@ -19,7 +19,7 @@ public class TransactionsDocument {
     @Id
     private String transactionsId;
     private String accountId;
-    private String operationsId;
+    private String operationTypeId;
     private BigDecimal amount;
     private DateTime eventDate;
 }

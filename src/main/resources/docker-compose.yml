@@ -1,0 +1,29 @@
+version: "3"
+services:
+    #Start Rabbitmq #
+    rabbitmq:
+        image: "rabbitmq:3.8-management-alpine"
+        container_name: bank-rabbitmq
+        hostname: rabbitmq
+        ports:
+            - "15672:15672"
+            - "15671:15671"
+            - "15691:15691"
+            - "15692:15692"
+            - "5672:5672"
+        volumes:
+            - "./rabbitmq_data:/var/lib/rabbitmq/mnesia"
+        environment:
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_DEFAULT_PASS=admin
+#Start Mongo DB#
+    mongodb:
+        image: mongo:latest
+        container_name: bank-mongodb
+        ports:
+            - "27017:27017"
+        volumes:
+            - "mongodb-data:/data/db"
+
+volumes:
+    mongodb-data: {}
