@@ -56,8 +56,15 @@ public class TransactionsServiceImpl implements TransactionsService {
     }
 
     private String getQueueType(OperationsTypeDocument typeDocument) {
-        return typeDocument.getDescription().equals(RabbitMqConstants.WITHDRAWAL) ?
-                RabbitMqConstants.WITHDRAWAL : RabbitMqConstants.DEPOSIT;
+        if (typeDocument.getDescription().contains("PAGAMENTO")) {
+            return RabbitMqConstants.PAYMENT;
+        }
+        if (typeDocument.getDescription().contains("SAQUE")) {
+            return RabbitMqConstants.WITHDRAWAL;
+        }
+
+        return RabbitMqConstants.PURCHASE;
+
     }
 
 }

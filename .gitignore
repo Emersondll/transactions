@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### RABBIT ###
-.src/main/resources/rabbitmq_data/
+!**/src/main/resources/rabbitmq_data/
 
 ### STS ###
 .apt_generated

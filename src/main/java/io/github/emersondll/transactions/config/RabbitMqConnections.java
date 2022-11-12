@@ -34,19 +34,27 @@ public class RabbitMqConnections {
     @PostConstruct
     private void init() {
         Queue queueWithdrawal = this.queue(RabbitMqConstants.WITHDRAWAL);
-        Queue queueDeposit = this.queue(RabbitMqConstants.DEPOSIT);
         Queue queueAccount = this.queue(RabbitMqConstants.ACCOUNT);
+        Queue queuePayment = this.queue(RabbitMqConstants.PAYMENT);
+        Queue queuePurchase = this.queue(RabbitMqConstants.PURCHASE);
+
         DirectExchange exchange = this.directExchange();
-        Binding bindingDeposit = this.binding(queueDeposit, exchange);
         Binding bindingWithdrawal = this.binding(queueWithdrawal, exchange);
         Binding bindingAccount = this.binding(queueAccount, exchange);
+        Binding bindingPayment = this.binding(queuePayment, exchange);
+        Binding bindingPurchase = this.binding(queuePurchase, exchange);
+
         this.amqpAdmin.declareQueue(queueWithdrawal);
-        this.amqpAdmin.declareQueue(queueDeposit);
         this.amqpAdmin.declareQueue(queueAccount);
+        this.amqpAdmin.declareQueue(queuePayment);
+        this.amqpAdmin.declareQueue(queuePurchase);
+
         this.amqpAdmin.declareExchange(exchange);
-        this.amqpAdmin.declareBinding(bindingDeposit);
         this.amqpAdmin.declareBinding(bindingWithdrawal);
         this.amqpAdmin.declareBinding(bindingAccount);
+        this.amqpAdmin.declareBinding(bindingPayment);
+        this.amqpAdmin.declareBinding(bindingPurchase);
+
 
 
     }
