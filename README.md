@@ -24,7 +24,7 @@ O docker compose esta localizado em : "src/main/resources/docker-compose.yml".
 ## Demonstração
 
 <p align="center">
-  <img title="#Demo" src="src/main/resources/gif/Demo.gif" width="600px">
+  <img title="#Demo" src="src/main/resources/gif/Demo.gif" width="800px">
 </p>
 
 
