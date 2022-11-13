@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.math.BigDecimal;
+
 @Service
 @Log4j2
 public class TransactionsServiceImpl implements TransactionsService {
@@ -36,15 +38,17 @@ public class TransactionsServiceImpl implements TransactionsService {
 
 
     public TransactionsResponse createTransaction(final TransactionsRequest request) throws Exception {
-        log.error("createTransaction");
+        log.info("Start createTransaction");
         if (ObjectUtils.isEmpty(request.getAmount()) || ObjectUtils.isEmpty(request.getOperationTypeId()) || ObjectUtils.isEmpty(request.getAccountId())) {
             log.error("Has Data Missing Transaction");
             throw new NullPointerException();
         }
         OperationsTypeDocument typeDocument = typeService.findById(request.getOperationTypeId());
         accountService.findById(request.getAccountId());
-        log.error("Save Data and Response");
-        TransactionsDocument document = repository.save(mapper.requestToDocument(request));
+        log.info("Save Data and Response");
+
+
+        TransactionsDocument document = repository.save(mapper.requestToDocument(validateSignalValues(request, typeDocument)));
 
         mqService.send(
                 getQueueType(typeDocument)
@@ -55,14 +59,36 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     }
 
+    private TransactionsRequest validateSignalValues(TransactionsRequest request, OperationsTypeDocument typeDocument) {
+        log.info("Start validate Signal in Values");
+
+        if (getQueueType(typeDocument).equals(RabbitMqConstants.PAYMENT)) {
+            if (request.getAmount().toString().contains("-")) {
+                request.setAmount(new BigDecimal(String.valueOf(request.getAmount().negate())));
+                return request;
+            }
+            return request;
+
+        } else if (!request.getAmount().toString().contains("-")) {
+            request.setAmount(new BigDecimal(String.valueOf(request.getAmount().negate())));
+            return request;
+        }
+        log.info("Finished validate Signal in Values");
+        return request;
+
+    }
+
     private String getQueueType(OperationsTypeDocument typeDocument) {
+        log.info("Start validate Queue Type");
         if (typeDocument.getDescription().contains("PAGAMENTO")) {
+            log.info("Queue Type PAYMENT");
             return RabbitMqConstants.PAYMENT;
         }
         if (typeDocument.getDescription().contains("SAQUE")) {
+            log.info("Queue Type WITHDRAWAL");
             return RabbitMqConstants.WITHDRAWAL;
         }
-
+        log.info("Queue Type PURCHASE");
         return RabbitMqConstants.PURCHASE;
 
     }

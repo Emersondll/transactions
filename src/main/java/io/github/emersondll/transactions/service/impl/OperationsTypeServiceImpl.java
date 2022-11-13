@@ -19,14 +19,14 @@ public class OperationsTypeServiceImpl implements OperationsTypeService {
 
     public OperationsTypeDocument findById(final String id) throws SQLDataException {
 
-        log.info("Find OperationsTypeDocument ");
+        log.info("Start findById OperationsTypeDocument ");
         Optional<OperationsTypeDocument> response = repository.findById(id);
 
         if (response.isEmpty()) {
             log.error("find account by id");
             throw new SQLDataException();
         }
-        log.info("Found OperationsTypeDocument ");
+        log.info("Finished findById OperationsTypeDocument ");
         return response.get();
 
     }

@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
     private RabbitMqService mqService;
 
     public AccountResponse createAccount(final AccountRequest request) {
-        log.info("Access method createAccount in Service ");
+        log.info("Start Access method createAccount in Service ");
         AccountDocument document = repository.findByDocumentNumber(request.getDocumentNumber());
         if (ObjectUtils.isEmpty(document)) {
             log.info("New Account ");
@@ -36,21 +36,21 @@ public class AccountServiceImpl implements AccountService {
             mqService.send(RabbitMqConstants.ACCOUNT, "New AccountID Created: ".concat(response.getAccountId()));
             return response;
         }
-        log.info("Old Account ");
+        log.info("Finished method createAccount in Service returning Old Account ");
         return mapper.convertDocumentToResponse(document);
 
     }
 
     @Override
     public AccountResponse findById(String accountId) throws Exception {
-        log.info("find account by id");
+        log.info("Start find account by id");
         Optional<AccountDocument> response = repository.findById(accountId);
 
         if (response.isEmpty()) {
             log.error("find account by id");
             throw new SQLDataException();
         }
-        log.info("found account ");
+        log.info("Finished find account by id");
         return mapper.convertDocumentToResponseComplete(response.get());
 
 
