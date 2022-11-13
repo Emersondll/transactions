@@ -56,7 +56,6 @@ public class RabbitMqConnections {
         this.amqpAdmin.declareBinding(bindingPurchase);
 
 
-
     }
 
 }

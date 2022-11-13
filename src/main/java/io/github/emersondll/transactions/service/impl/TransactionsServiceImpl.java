@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 public class TransactionsServiceImpl implements TransactionsService {
     public static final String NEW_TRANSACTION = "New transaction registered with ID ";
     public static final String TYPE = " and operation type: ";
-    public static final String VALUE = " and value: ? ";
+    public static final String VALUE = " and value:  ";
     @Autowired
     private AccountService accountService;
 
