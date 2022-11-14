@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (response.isEmpty()) {
             log.error("find account by id");
-            throw new SQLDataException();
+            throw new SQLDataException("Id Not Found");
         }
         log.info("Finished find account by id");
         return mapper.convertDocumentToResponseComplete(response.get());
