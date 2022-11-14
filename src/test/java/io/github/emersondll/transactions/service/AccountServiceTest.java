@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
 
-    private AccountServiceImpl testClass;
+    private AccountService testClass;
     @Mock
     private AccountRepository repository;
     @Mock
@@ -96,14 +96,13 @@ class AccountServiceTest {
 
     private AccountDocument getAccountDocument() {
         return AccountDocument.builder()
-                .accountId("123")
+                .documentNumber("123")
                 .accountId("456")
                 .createdAt(DateTime.now()).build();
     }
 
     private AccountResponse getAccountResponse() {
         return AccountResponse.builder()
-                .accountId("123")
                 .accountId("456").build();
 
     }
