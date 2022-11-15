@@ -26,7 +26,7 @@ public class MongoDbDDL {
         List<OperationsTypeDocument> documentList = new ArrayList<>();
         documentList.add(OperationsTypeDocument.builder().operationsId("1").description(MongoDbOperationTypeConstants.BUY_AT_CASH).createdAt(DateTime.now()).build());
         documentList.add(OperationsTypeDocument.builder().operationsId("2").description(MongoDbOperationTypeConstants.INSTALLMENT_PURCHASE).createdAt(DateTime.now()).build());
-        documentList.add(OperationsTypeDocument.builder().operationsId("3").description(MongoDbOperationTypeConstants.WITHDRAW).createdAt(DateTime.now()).build());
+        documentList.add(OperationsTypeDocument.builder().operationsId("3").description(MongoDbOperationTypeConstants.WITHDRAWAL).createdAt(DateTime.now()).build());
         documentList.add(OperationsTypeDocument.builder().operationsId("4").description(MongoDbOperationTypeConstants.PAYMENT).createdAt(DateTime.now()).build());
         return documentList;
 

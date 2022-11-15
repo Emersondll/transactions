@@ -11,6 +11,7 @@ import io.github.emersondll.transactions.service.AccountService;
 import io.github.emersondll.transactions.service.OperationsTypeService;
 import io.github.emersondll.transactions.service.RabbitMqService;
 import io.github.emersondll.transactions.service.TransactionsService;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class TransactionsServiceImpl implements TransactionsService {
     public static final String NEW_TRANSACTION = "New transaction registered with ID ";
     public static final String TYPE = " and operation type: ";
@@ -41,7 +43,7 @@ public class TransactionsServiceImpl implements TransactionsService {
         log.info("Start createTransaction");
         if (ObjectUtils.isEmpty(request.getAmount()) || ObjectUtils.isEmpty(request.getOperationTypeId()) || ObjectUtils.isEmpty(request.getAccountId())) {
             log.error("Has Data Missing Transaction");
-            throw new NullPointerException();
+            throw new NullPointerException("Error");
         }
         OperationsTypeDocument typeDocument = typeService.findById(request.getOperationTypeId());
         accountService.findById(request.getAccountId());
@@ -59,7 +61,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     }
 
-    private TransactionsRequest validateSignalValues(TransactionsRequest request, OperationsTypeDocument typeDocument) {
+    protected TransactionsRequest validateSignalValues(TransactionsRequest request, OperationsTypeDocument typeDocument) {
         log.info("Start validate Signal in Values");
 
         if (getQueueType(typeDocument).equals(RabbitMqConstants.PAYMENT)) {
@@ -78,7 +80,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     }
 
-    private String getQueueType(OperationsTypeDocument typeDocument) {
+    protected String getQueueType(OperationsTypeDocument typeDocument) {
         log.info("Start validate Queue Type");
         if (typeDocument.getDescription().contains("PAGAMENTO")) {
             log.info("Queue Type PAYMENT");

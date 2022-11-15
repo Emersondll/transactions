@@ -1,11 +1,12 @@
-package io.github.emersondll.transactions.service;
+package io.github.emersondll.transactions.service.impl;
 
 import io.github.emersondll.transactions.document.AccountDocument;
 import io.github.emersondll.transactions.mapper.AccountMapper;
 import io.github.emersondll.transactions.model.request.AccountRequest;
 import io.github.emersondll.transactions.model.response.AccountResponse;
 import io.github.emersondll.transactions.repository.AccountRepository;
-import io.github.emersondll.transactions.service.impl.AccountServiceImpl;
+import io.github.emersondll.transactions.service.AccountService;
+import io.github.emersondll.transactions.service.RabbitMqService;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("SacolaServiceImpl Test")
+@DisplayName("AccountServiceTest Test")
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
 

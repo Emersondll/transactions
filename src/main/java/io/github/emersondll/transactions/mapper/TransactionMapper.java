@@ -31,7 +31,6 @@ public class TransactionMapper {
                 .accountId(document.getAccountId())
                 .amount(document.getAmount())
                 .transactionsId(document.getTransactionsId())
-                .amount(document.getAmount())
                 .eventDate(DateTime.now())
                 .operationTypeId(document.getOperationTypeId())
                 .build();

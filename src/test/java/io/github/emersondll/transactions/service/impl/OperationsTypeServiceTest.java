@@ -1,8 +1,8 @@
-package io.github.emersondll.transactions.service;
+package io.github.emersondll.transactions.service.impl;
 
 import io.github.emersondll.transactions.document.OperationsTypeDocument;
 import io.github.emersondll.transactions.repository.OperationsTypeRepository;
-import io.github.emersondll.transactions.service.impl.OperationsTypeServiceImpl;
+import io.github.emersondll.transactions.service.OperationsTypeService;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("SacolaServiceImpl Test")
+@DisplayName("OperationsTypeServiceTest Test")
 @ExtendWith(MockitoExtension.class)
 class OperationsTypeServiceTest {
 
