@@ -1,10 +1,12 @@
 package io.github.emersondll.transactions.service.impl;
 
 import io.github.emersondll.transactions.config.constants.RabbitMqConstants;
+import io.github.emersondll.transactions.document.AccountDocument;
 import io.github.emersondll.transactions.document.OperationsTypeDocument;
 import io.github.emersondll.transactions.document.TransactionsDocument;
 import io.github.emersondll.transactions.mapper.TransactionMapper;
 import io.github.emersondll.transactions.model.request.TransactionsRequest;
+import io.github.emersondll.transactions.model.response.BalanceResponse;
 import io.github.emersondll.transactions.model.response.TransactionsResponse;
 import io.github.emersondll.transactions.repository.TransactionsRepository;
 import io.github.emersondll.transactions.service.AccountService;
@@ -18,6 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
+import java.sql.SQLDataException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Log4j2
@@ -95,4 +102,37 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     }
 
+    @Override
+    public BalanceResponse recoveryBalance(final String documentNumber) throws SQLDataException {
+        log.info("Start Recovery Balance");
+        BigDecimal value ;
+        List<AccountDocument> accountDocument = accountService.findAllByDocumentNumber(documentNumber);
+       // List<TransactionsDocument> transactionsDocument = repository.findAllById(accountDocument);
+
+
+          /*    accountService.findAllByDocumentNumber(documentNumber)
+                .stream()
+                .map(
+                        document ->
+                        {
+                            value=   repository.findById(
+                                    document.getAccountId())
+                                    .filter(document1 -> true)
+                                    .get()
+                                    .getAmount();
+                            return value;
+
+
+                        }
+
+
+                );*/
+
+
+
+
+
+        log.info("Finished Recovery Balance");
+        return null;
+    }
 }

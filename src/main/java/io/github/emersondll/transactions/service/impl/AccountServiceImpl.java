@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.sql.SQLDataException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountResponse createAccount(final AccountRequest request) {
         log.info("Start Access method createAccount in Service ");
-        AccountDocument document = repository.findByDocumentNumber(request.getDocumentNumber());
+        AccountDocument document = findByDocumentNumber(request.getDocumentNumber());
         if (ObjectUtils.isEmpty(document)) {
             log.info("New Account ");
             AccountResponse response = mapper.convertDocumentToResponse(repository.save(mapper.convertRequestToDocument(request)));
@@ -40,6 +41,14 @@ public class AccountServiceImpl implements AccountService {
         return mapper.convertDocumentToResponse(document);
 
     }
+
+    public AccountDocument findByDocumentNumber(String documentNumber){
+        return repository.findByDocumentNumber(documentNumber);
+    }
+    public List<AccountDocument> findAllByDocumentNumber(String documentNumber){
+        return repository.findAllByDocumentNumber(documentNumber);
+    }
+
 
     @Override
     public AccountResponse findById(String accountId) throws Exception {
