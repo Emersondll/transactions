@@ -12,6 +12,5 @@ public interface AccountService {
     AccountResponse findById(final String accountId) throws Exception;
 
     AccountDocument findByDocumentNumber(final String documentNumber);
-    List<AccountDocument> findAllByDocumentNumber(final String documentNumber);
 
 }

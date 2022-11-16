@@ -21,10 +21,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
 import java.sql.SQLDataException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @Log4j2
@@ -103,36 +100,23 @@ public class TransactionsServiceImpl implements TransactionsService {
     }
 
     @Override
-    public BalanceResponse recoveryBalance(final String documentNumber) throws SQLDataException {
+    public BalanceResponse recoveryBalance(final String documentNumber) {
         log.info("Start Recovery Balance");
-        BigDecimal value ;
-        List<AccountDocument> accountDocument = accountService.findAllByDocumentNumber(documentNumber);
-       // List<TransactionsDocument> transactionsDocument = repository.findAllById(accountDocument);
+        BalanceResponse response = new BalanceResponse();
+        response.setAmount(BigDecimal.ZERO);
 
-
-          /*    accountService.findAllByDocumentNumber(documentNumber)
-                .stream()
-                .map(
-                        document ->
-                        {
-                            value=   repository.findById(
-                                    document.getAccountId())
-                                    .filter(document1 -> true)
-                                    .get()
-                                    .getAmount();
-                            return value;
-
-
-                        }
-
-
-                );*/
-
-
-
-
+        AccountDocument accountDocument = accountService.findByDocumentNumber(documentNumber);
+        List<TransactionsDocument> transactionsDocumentList = repository.findAllByAccountId(accountDocument.getAccountId());
+        transactionsDocumentList.forEach(document -> fillBalance(document.getAmount(), response));
 
         log.info("Finished Recovery Balance");
-        return null;
+        return response;
     }
+
+    private void fillBalance(BigDecimal value, BalanceResponse response) {
+        log.info("Start fill Balance");
+        response.setAmount(response.getAmount().add(value));
+        log.info("Finished fill Balance");
+    }
+
 }
