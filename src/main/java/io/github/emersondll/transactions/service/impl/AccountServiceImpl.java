@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.sql.SQLDataException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,11 +41,8 @@ public class AccountServiceImpl implements AccountService {
 
     }
 
-    public AccountDocument findByDocumentNumber(String documentNumber){
+    public AccountDocument findByDocumentNumber(String documentNumber) {
         return repository.findByDocumentNumber(documentNumber);
-    }
-    public List<AccountDocument> findAllByDocumentNumber(String documentNumber){
-        return repository.findAllByDocumentNumber(documentNumber);
     }
 
 

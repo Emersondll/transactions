@@ -4,8 +4,6 @@ import io.github.emersondll.transactions.document.AccountDocument;
 import io.github.emersondll.transactions.model.request.AccountRequest;
 import io.github.emersondll.transactions.model.response.AccountResponse;
 
-import java.util.List;
-
 public interface AccountService {
     AccountResponse createAccount(final AccountRequest request);
 

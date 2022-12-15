@@ -20,7 +20,7 @@ public class TransactionsController implements BaseController {
 
     private TransactionsService service;
 
-    @PostMapping ("/transactions")
+    @PostMapping("/transactions")
     public ResponseEntity<TransactionsResponse> createTransaction(@RequestBody TransactionsRequest request) throws Exception {
         log.info("Start Transactions Controller");
         TransactionsResponse response = service.createTransaction(request);
