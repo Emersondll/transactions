@@ -1,10 +1,12 @@
 package io.github.emersondll.transactions.service.impl;
 
+import io.github.emersondll.transactions.document.AccountDocument;
 import io.github.emersondll.transactions.document.OperationsTypeDocument;
 import io.github.emersondll.transactions.document.TransactionsDocument;
 import io.github.emersondll.transactions.mapper.TransactionMapper;
 import io.github.emersondll.transactions.model.request.TransactionsRequest;
 import io.github.emersondll.transactions.model.response.AccountResponse;
+import io.github.emersondll.transactions.model.response.BalanceResponse;
 import io.github.emersondll.transactions.model.response.TransactionsResponse;
 import io.github.emersondll.transactions.repository.TransactionsRepository;
 import io.github.emersondll.transactions.service.AccountService;
@@ -21,6 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -176,6 +179,17 @@ class TransactionServiceTest {
 
     }
 
+    @Test
+    @DisplayName("recoveryBalance")
+    void recoveryBalance() {
+
+        Mockito.when(accountService.findByDocumentNumber(Mockito.anyString())).thenReturn(getAccountDocument());
+        Mockito.when(repository.findAllByAccountId(Mockito.anyString())).thenReturn(List.of(getTransactionsDocument()));
+
+        BalanceResponse response = testClass.recoveryBalance("anyDocumentNumber");
+        Assertions.assertEquals(new BigDecimal(10), response.getAmount());
+    }
+
 
     /****Helper****/
     private TransactionsResponse getTransactionResponse() {
@@ -213,6 +227,13 @@ class TransactionServiceTest {
         return AccountResponse.builder()
                 .accountId("456").build();
 
+    }
+
+    private AccountDocument getAccountDocument() {
+        return AccountDocument.builder()
+                .accountId("accountId")
+                .documentNumber("documentNumber")
+                .build();
     }
 
 }
