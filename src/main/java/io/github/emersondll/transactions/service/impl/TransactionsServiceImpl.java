@@ -1,10 +1,12 @@
 package io.github.emersondll.transactions.service.impl;
 
 import io.github.emersondll.transactions.config.constants.RabbitMqConstants;
+import io.github.emersondll.transactions.document.AccountDocument;
 import io.github.emersondll.transactions.document.OperationsTypeDocument;
 import io.github.emersondll.transactions.document.TransactionsDocument;
 import io.github.emersondll.transactions.mapper.TransactionMapper;
 import io.github.emersondll.transactions.model.request.TransactionsRequest;
+import io.github.emersondll.transactions.model.response.BalanceResponse;
 import io.github.emersondll.transactions.model.response.TransactionsResponse;
 import io.github.emersondll.transactions.repository.TransactionsRepository;
 import io.github.emersondll.transactions.service.AccountService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -93,6 +96,26 @@ public class TransactionsServiceImpl implements TransactionsService {
         log.info("Queue Type PURCHASE");
         return RabbitMqConstants.PURCHASE;
 
+    }
+
+    @Override
+    public BalanceResponse recoveryBalance(final String documentNumber) {
+        log.info("Start Recovery Balance");
+        BalanceResponse response = new BalanceResponse();
+        response.setAmount(BigDecimal.ZERO);
+
+        AccountDocument accountDocument = accountService.findByDocumentNumber(documentNumber);
+        List<TransactionsDocument> transactionsDocumentList = repository.findAllByAccountId(accountDocument.getAccountId());
+        transactionsDocumentList.forEach(document -> fillBalance(document.getAmount(), response));
+
+        log.info("Finished Recovery Balance");
+        return response;
+    }
+
+    private void fillBalance(BigDecimal value, BalanceResponse response) {
+        log.info("Start fill Balance");
+        response.setAmount(response.getAmount().add(value));
+        log.info("Finished fill Balance");
     }
 
 }

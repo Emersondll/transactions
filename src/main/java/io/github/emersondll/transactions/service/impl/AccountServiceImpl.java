@@ -28,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
     public AccountResponse createAccount(final AccountRequest request) {
         log.info("Start Access method createAccount in Service ");
-        AccountDocument document = repository.findByDocumentNumber(request.getDocumentNumber());
+        AccountDocument document = findByDocumentNumber(request.getDocumentNumber());
         if (ObjectUtils.isEmpty(document)) {
             log.info("New Account ");
             AccountResponse response = mapper.convertDocumentToResponse(repository.save(mapper.convertRequestToDocument(request)));
@@ -40,6 +40,11 @@ public class AccountServiceImpl implements AccountService {
         return mapper.convertDocumentToResponse(document);
 
     }
+
+    public AccountDocument findByDocumentNumber(String documentNumber) {
+        return repository.findByDocumentNumber(documentNumber);
+    }
+
 
     @Override
     public AccountResponse findById(String accountId) throws Exception {

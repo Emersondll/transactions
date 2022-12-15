@@ -8,4 +8,6 @@ public interface AccountRepository extends MongoRepository<AccountDocument, Stri
 
     @Query
     AccountDocument findByDocumentNumber(String documentNumber);
+
+
 }
