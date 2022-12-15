@@ -39,7 +39,7 @@ curl --request POST \
   --data '{
 	"documentNumber": "64771015058"
 }'
-}
+
 ----
 
 curl --request GET \
@@ -57,6 +57,10 @@ curl --request POST \
 	"operationTypeId": 1,
 	"amount": -123.45
 }'
+
+curl --request GET \
+  --url http://localhost:8080/digital/transactions/v1/transactions/balance/64771015058 \
+  --cookie JSESSIONID=1445158BB71F05CDF725CAC00DF41905
 
 ```
 
